@@ -1,0 +1,31 @@
+export const sports = {
+  baseball:          { label: 'Baseball',           db: 'db_baseball' },
+  basketball:        { label: 'Basketball',         db: 'db_basketball' },
+  football:          { label: 'Football',           db: 'db_football' },
+  soccer:            { label: 'Soccer',             db: 'db_soccer' },
+  hockey:            { label: 'Hockey',             db: 'db_hockey' },
+  mma:               { label: 'MMA',                db: 'db_mma' },
+  wrestling:         { label: 'Wrestling',          db: 'db_wrestling' },
+  racing:            { label: 'Racing',             db: 'db_racing' },
+  australian_rules:  { label: 'Australian Rules',  db: 'db_australian' },
+  boxing:            { label: 'Boxing',             db: 'db_boxing' },
+  cricket:           { label: 'Cricket',            db: 'db_cricket' },
+  formula1:          { label: 'Formula 1',          db: 'db_formula1' },
+  golf:              { label: 'Golf',               db: 'db_golf' },
+  rugby:             { label: 'Rugby',              db: 'db_rugby' },
+  softball:          { label: 'Softball',           db: 'db_softball' },
+  tennis:            { label: 'Tennis',             db: 'db_tennis' },
+  gaming:            { label: 'Gaming',             db: 'db_gaming' },
+  magic:             { label: 'Magic',              db: 'db_magic' },
+  pokemon:           { label: 'Pokemon',            db: 'db_pokemon' },
+  nonsports:         { label: 'Non-Sports',         db: 'db_nonsports' },
+  yugioh:            { label: 'Yu-Gi-Oh',           db: 'db_yugioh' },
+  bakugan:           { label: 'Bakugan',            db: 'db_bakugan' },
+  funko:             { label: 'Funko',              db: 'db_funko' },
+}
+
+export const categories = {
+  'Main Sports':   ['baseball','basketball','football','soccer','hockey','mma','wrestling','racing'],
+  'Other Sports':  ['australian_rules','boxing','cricket','formula1','golf','rugby','softball','tennis'],
+  'Gaming & Other':['gaming','magic','pokemon','nonsports','yugioh','bakugan','funko'],
+}

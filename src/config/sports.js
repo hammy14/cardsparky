@@ -1,0 +1,31 @@
+export const sports = {
+  baseball:   { label: 'Baseball',    db: 'Baseball',    table: 'BaseballSets',     icon: '⚾' },
+  basketball: { label: 'Basketball',  db: 'Basketball',  table: 'BKSets',           icon: '🏀' },
+  football:   { label: 'Football',    db: 'Football',    table: 'FootballSets',     icon: '🏈' },
+  soccer:     { label: 'Soccer',      db: 'Soccer',      table: 'Sets',             icon: '⚽' },
+  hockey:     { label: 'Hockey',      db: 'Hockey',      table: 'HockeySets',       icon: '🏒' },
+  mma:        { label: 'MMA',         db: 'MMA',         table: 'MMASets',          icon: '🥊' },
+  wrestling:  { label: 'Wrestling',   db: 'Wrestling',   table: 'WrestlingSets',    icon: '🤼' },
+  racing:     { label: 'Racing',      db: 'Racing',      table: 'RCSets',           icon: '🏎️' },
+  miscSports: { label: 'Misc Sports', db: 'MiscSports',  table: 'MiscSportsSets',   icon: '🏅' },
+  multiSport: { label: 'Multi Sport', db: 'MultiSport',  table: 'MultiSportSets',   icon: '🎽' },
+  boxing:     { label: 'Boxing',      db: 'Boxing',      table: 'BXSets',           icon: '🥋' },
+  cricket:    { label: 'Cricket',     db: 'Cricket',     table: 'CricketSets',      icon: '🏏' },
+  formula1:   { label: 'Formula 1',   db: 'Formula1',    table: 'F1Sets',           icon: '🏁' },
+  golf:       { label: 'Golf',        db: 'Golf',        table: 'GolfSets',         icon: '⛳' },
+  rugby:      { label: 'Rugby',       db: 'Rugby',       table: 'RugbySets',        icon: '🏉' },
+  softball:   { label: 'Softball',    db: 'Softball',    table: 'SoftballSets',     icon: '🥎' },
+  tennis:     { label: 'Tennis',      db: 'Tennis',      table: 'TennisSets',       icon: '🎾' },
+  gaming:     { label: 'Gaming',      db: 'Gaming',      table: 'GamingSets',       icon: '🎮' },
+  magic:      { label: 'Magic',       db: 'Magic',       table: 'MagicSets',        icon: '🧙' },
+  pokemon:    { label: 'Pokemon',     db: 'Pokemon',     table: 'PokemonSets',      icon: '⚡' },
+  nonsports:  { label: 'Non-Sports',  db: 'NonSports',   table: 'NonSportsSets',    icon: '🃏' },
+  yugioh:     { label: 'Yu-Gi-Oh',    db: 'Yugioh',      table: 'YugiohSets',       icon: '👁️' },
+  funko:      { label: 'Funko',       db: 'Funko',       table: 'FunkoSets',        icon: '🧸' },
+}
+
+export const categories = {
+  'Main Sports':    ['baseball','basketball','football','soccer','hockey','mma','wrestling','racing'],
+  'Other Sports':   ['miscSports','multiSport','boxing','cricket','formula1','golf','rugby','softball','tennis'],
+  'Gaming & Other': ['gaming','magic','pokemon','nonsports','yugioh','funko'],
+}
