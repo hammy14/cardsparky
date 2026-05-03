@@ -2,7 +2,8 @@ import { createContext, useContext, useState } from 'react'
 
 const AuthContext = createContext(null)
 const SESSION_KEY = 'cs_session'
-const API = 'http://localhost:3001/api/auth'
+const API_BASE = import.meta.env.VITE_API_URL ?? 'http://localhost:3001'
+const API = `${API_BASE}/api/auth`
 const TAB_VISIBILITY_KEY = 'cs_tab_visibility'
 
 export const ALL_TABS = [
