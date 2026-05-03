@@ -7,7 +7,13 @@ import bcrypt from 'bcrypt'
 dotenv.config()
 
 const app = express()
-app.use(cors())
+
+// ── CORS Configuration ────────────────────────────────────────────────────────
+const ALLOWED_ORIGINS = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173,http://localhost:5174').split(',').map(s => s.trim())
+app.use(cors({ 
+  origin: (origin, cb) => (!origin || ALLOWED_ORIGINS.includes(origin)) ? cb(null, true) : cb(null, false), 
+  credentials: true 
+}))
 app.use(express.json())
 
 const pools = {}
