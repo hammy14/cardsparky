@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { API } from '../../config/api'
 
 function fnum(n) { return Number(n).toLocaleString() }
 function fcur(n) { return '$' + Number(n).toLocaleString(undefined, { maximumFractionDigits: 2, minimumFractionDigits: 2 }) }
@@ -23,7 +24,7 @@ export default function YearSummary({ sport }) {
   const fetchData = useCallback(() => {
     setLoading(true)
     const params = new URLSearchParams({ page, perpage, fyear: appliedYear })
-    fetch(`http://localhost:3001/api/${sport.db}/yearsummary/${sport.table}?${params}`)
+    fetch(`${API.BASE}/api/${sport.db}/yearsummary/${sport.table}?${params}`)
       .then(r => r.json())
       .then(d => {
         if (d.error) throw new Error(d.error)

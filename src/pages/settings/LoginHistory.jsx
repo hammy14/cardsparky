@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { SkeletonTable } from '../../components/Skeleton'
 import EmptyState from '../../components/EmptyState'
+import { API } from '../../config/api'
 
 function formatDuration(seconds) {
   if (!seconds) return '—'
@@ -150,8 +151,8 @@ export default function LoginHistory() {
     const params = new URLSearchParams({ page, perpage, ...applied })
     // also fetch up to 500 for heatmap
     Promise.all([
-      fetch(`http://localhost:3001/api/auth/loginhistory?${params}`).then(r => r.json()),
-      fetch(`http://localhost:3001/api/auth/loginhistory?page=1&perpage=500`).then(r => r.json()),
+      fetch(`${API.AUTH}/loginhistory?${params}`).then(r => r.json()),
+      fetch(`${API.AUTH}/loginhistory?page=1&perpage=500`).then(r => r.json()),
     ])
       .then(([paged, all]) => {
         if (paged.error) throw new Error(paged.error)

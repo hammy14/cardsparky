@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { SkeletonKpis, SkeletonTable, AnimatedKpiCard } from '../../components/Skeleton'
 import EmptyState from '../../components/EmptyState'
 import DonutChart from '../../components/DonutChart'
+import { API } from '../../config/api'
 
 function fnum(n) { return Number(n ?? 0).toLocaleString() }
 
@@ -47,8 +48,8 @@ export default function SetCompletionTracker() {
   const fetchData = useCallback(() => {
     setLoading(true)
     Promise.all([
-      fetch('http://localhost:3001/api/analysis/priceinfo').then(r => r.json()),
-      fetch('http://localhost:3001/api/analysis/cardlist').then(r => r.json()),
+      fetch(`${API.ANALYSIS}/priceinfo`).then(r => r.json()),
+      fetch(`${API.ANALYSIS}/cardlist`).then(r => r.json()),
     ])
       .then(([pi, cl]) => {
         if (pi.error) throw new Error(pi.error)

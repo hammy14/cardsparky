@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { sports } from '../../config/sports'
+import { API } from '../../config/api'
 
 const PRESET_QUERIES = [
   { label: 'Sets with no Price Info',    sql: 'SELECT SetName, Category, Year FROM `{table}` WHERE PriceInfo = 0 ORDER BY SetName LIMIT 100' },
@@ -30,7 +31,7 @@ export default function CustomReports() {
     setError(null)
     setResults(null)
     try {
-      const res = await fetch(`http://localhost:3001/api/${sport.db}/query?sql=${encodeURIComponent(sql)}`)
+      const res = await fetch(`${API.BASE}/api/${sport.db}/query?sql=${encodeURIComponent(sql)}`)
       const data = await res.json()
       if (data.error) throw new Error(data.error)
       setResults(data)

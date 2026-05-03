@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { API } from '../../config/api'
 
 const CARD_TYPES = ['Base', 'Parallel', 'Insert']
 const STATUS_TYPES = ['New', 'Completed']
@@ -108,7 +109,7 @@ export default function CardTypeUpdate({ sport }) {
   const fetchData = useCallback(() => {
     setLoading(true)
     const params = new URLSearchParams({ page, perpage, ...applied })
-    fetch(`http://localhost:3001/api/${sport.db}/cardtype/${sport.table}?${params}`)
+    fetch(`${API.BASE}/api/${sport.db}/cardtype/${sport.table}?${params}`)
       .then(r => r.json())
       .then(d => {
         if (d.error) throw new Error(d.error)
@@ -124,7 +125,7 @@ export default function CardTypeUpdate({ sport }) {
   useEffect(() => { fetchData() }, [fetchData])
 
   async function saveField(id, column, value) {
-    const res = await fetch(`http://localhost:3001/api/${sport.db}/cardtype/${sport.table}/${id}`, {
+    const res = await fetch(`${API.BASE}/api/${sport.db}/cardtype/${sport.table}/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ column, value })

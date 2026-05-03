@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { API } from '../../config/api'
 
 const SELECT_STYLE = {
   padding: '0.25rem 0.4rem', border: '1px solid var(--gray-200)',
@@ -60,7 +61,7 @@ export default function CardListUpdate({ sport }) {
   const fetchData = useCallback(() => {
     setLoading(true)
     const params = new URLSearchParams({ page, perpage, ...applied })
-    fetch(`http://localhost:3001/api/${sport.db}/cardlist/${sport.table}?${params}`)
+    fetch(`${API.BASE}/api/${sport.db}/cardlist/${sport.table}?${params}`)
       .then(r => r.json())
       .then(d => {
         if (d.error) throw new Error(d.error)
@@ -76,7 +77,7 @@ export default function CardListUpdate({ sport }) {
   useEffect(() => { fetchData() }, [fetchData])
 
   async function saveField(id, column, value) {
-    const res = await fetch(`http://localhost:3001/api/${sport.db}/cardlist/${sport.table}/${id}`, {
+    const res = await fetch(`${API.BASE}/api/${sport.db}/cardlist/${sport.table}/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ column, value })

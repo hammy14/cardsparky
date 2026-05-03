@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
+import { API } from '../../config/api'
 
-const API = 'http://localhost:3001/api/pt'
+const PT_API = API.PT
 
 const SHIRT_COLORS = { XS: 'var(--green)', S: 'var(--blue)', M: 'var(--yellow)', L: 'var(--orange)', XL: 'var(--red)' }
 const TYPE_ICONS   = { Enhancement: '🚀', Bug: '🐛', 'Change Request': '🔄' }
@@ -49,7 +50,7 @@ function ProjectPanel({ project: initialProject, onClose, onRefresh }) {
     const updated = { ...project, [field]: value }
     setProject(updated)
     setEditingField(null)
-    await fetch(`${API}/projects/${project.id}`, {
+    await fetch(`${PT_API}/projects/${project.id}`, {
       method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(updated)
     })
     onRefresh()
@@ -58,8 +59,8 @@ function ProjectPanel({ project: initialProject, onClose, onRefresh }) {
   const loadTasks = useCallback(async () => {
     try {
       const [tr, rr] = await Promise.all([
-        fetch(`${API}/tasks?project_id=${project.id}`).then(r => r.json()),
-        fetch(`${API}/releases?project_id=${project.id}`).then(r => r.json()),
+        fetch(`${PT_API}/tasks?project_id=${project.id}`).then(r => r.json()),
+        fetch(`${PT_API}/releases?project_id=${project.id}`).then(r => r.json()),
       ])
       setTasks(Array.isArray(tr) ? tr : [])
       setReleases(Array.isArray(rr) ? rr : [])
@@ -69,7 +70,7 @@ function ProjectPanel({ project: initialProject, onClose, onRefresh }) {
   useEffect(() => { loadTasks() }, [loadTasks])
 
   async function updateTaskField(task, field, value) {
-    await fetch(`${API}/tasks/${task.id}`, {
+    await fetch(`${PT_API}/tasks/${task.id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ ...task, [field]: value }),
@@ -80,13 +81,13 @@ function ProjectPanel({ project: initialProject, onClose, onRefresh }) {
   async function saveTask(t) {
     if (!t.title) return
     const method = t.id ? 'PUT' : 'POST'
-    const url = t.id ? `${API}/tasks/${t.id}` : `${API}/tasks`
+    const url = t.id ? `${PT_API}/tasks/${t.id}` : `${PT_API}/tasks`
     await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(t) })
     setEditingTask(null); setAddingTask(false); loadTasks(); onRefresh()
   }
 
   async function delTask(id) {
-    await fetch(`${API}/tasks/${id}`, { method: 'DELETE' })
+    await fetch(`${PT_API}/tasks/${id}`, { method: 'DELETE' })
     loadTasks(); onRefresh()
   }
 
@@ -261,8 +262,8 @@ function ProjectPanel({ project: initialProject, onClose, onRefresh }) {
 
 // ── Projects ──────────────────────────────────────────────────────────────────
 function Projects({ onReload }) {
-  const [projects, reload] = useApi(`${API}/projects`)
-  const [releases] = useApi(`${API}/releases`)
+  const [projects, reload] = useApi(`${PT_API}/projects`)
+  const [releases] = useApi(`${PT_API}/releases`)
   const [editing, setEditing] = useState(null)
   const [panelProject, setPanelProject] = useState(null)
   const [filterStatus, setFilterStatus] = useState('')
@@ -283,7 +284,7 @@ function Projects({ onReload }) {
   async function save() {
     if (!editing.name) return
     const method = editing.id ? 'PUT' : 'POST'
-    const url = editing.id ? `${API}/projects/${editing.id}` : `${API}/projects`
+    const url = editing.id ? `${PT_API}/projects/${editing.id}` : `${PT_API}/projects`
     await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
     reload(); setEditing(null)
     if (panelProject?.id === editing.id) setPanelProject(p => ({ ...p, ...editing }))
@@ -291,7 +292,7 @@ function Projects({ onReload }) {
 
   async function del(id) {
     if (!confirm('Delete project and all its tasks/releases?')) return
-    await fetch(`${API}/projects/${id}`, { method: 'DELETE' })
+    await fetch(`${PT_API}/projects/${id}`, { method: 'DELETE' })
     reload(); if (panelProject?.id === id) setPanelProject(null)
   }
 
@@ -381,8 +382,8 @@ function Projects({ onReload }) {
 
 // ── Tasks ─────────────────────────────────────────────────────────────────────
 function Tasks({ projects }) {
-  const [tasks, reload] = useApi(`${API}/tasks`)
-  const [releases, reloadReleases] = useApi(`${API}/releases`)
+  const [tasks, reload] = useApi(`${PT_API}/tasks`)
+  const [releases, reloadReleases] = useApi(`${PT_API}/releases`)
   const [editing, setEditing] = useState(null)
   const [filterProject, setFilterProject] = useState('')
   const [filterStatus, setFilterStatus] = useState('')
@@ -399,13 +400,13 @@ function Tasks({ projects }) {
   async function save() {
     if (!editing.title || !editing.project_id) return
     const method = editing.id ? 'PUT' : 'POST'
-    const url = editing.id ? `${API}/tasks/${editing.id}` : `${API}/tasks`
+    const url = editing.id ? `${PT_API}/tasks/${editing.id}` : `${PT_API}/tasks`
     await fetch(url, { method, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(editing) })
     reload(); setEditing(null)
   }
 
   async function del(id) {
-    await fetch(`${API}/tasks/${id}`, { method: 'DELETE' }); reload()
+    await fetch(`${PT_API}/tasks/${id}`, { method: 'DELETE' }); reload()
   }
 
   const projectRelease = releases.filter(r => !editing?.project_id || String(r.project_id) === String(editing?.project_id))

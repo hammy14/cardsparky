@@ -4,6 +4,7 @@ import { SkeletonTable } from '../../components/Skeleton'
 import DensityToggle from '../../components/DensityToggle'
 import useDensity from '../../hooks/useDensity'
 import useColResize from '../../hooks/useColResize.jsx'
+import { API } from '../../config/api'
 
 const PASSFAIL_OPTS = ['Pass', 'Fail', 'PassPrice', 'PassPrice0', 'Complete', 'Duplicate', 'Error']
 
@@ -97,7 +98,7 @@ export default function NumbersUpdate({ sport }) {
   const fetchData = useCallback(() => {
     setLoading(true)
     const params = new URLSearchParams({ page, perpage, ...applied })
-    fetch(`http://localhost:3001/api/${sport.db}/numbers/${sport.table}?${params}`)
+    fetch(`${API.BASE}/api/${sport.db}/numbers/${sport.table}?${params}`)
       .then(r => r.json())
       .then(d => {
         if (d.error) throw new Error(d.error)
@@ -114,7 +115,7 @@ export default function NumbersUpdate({ sport }) {
 
   async function saveField(id, column, value) {
     setUnsaved(s => new Set([...s, id]))
-    const res = await fetch(`http://localhost:3001/api/${sport.db}/numbers/${sport.table}/${id}`, {
+    const res = await fetch(`${API.BASE}/api/${sport.db}/numbers/${sport.table}/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ column, value })

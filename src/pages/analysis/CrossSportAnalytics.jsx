@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { SkeletonKpis, SkeletonTable, AnimatedKpiCard } from '../../components/Skeleton'
 import EmptyState from '../../components/EmptyState'
+import { API } from '../../config/api'
 
 function fnum(n) { return Number(n ?? 0).toLocaleString() }
 function fcur(n) { return '$' + Number(n ?? 0).toLocaleString(undefined, { maximumFractionDigits: 0 }) }
@@ -15,7 +16,7 @@ export default function CrossSportAnalytics() {
 
   const fetchData = useCallback(() => {
     setLoading(true)
-    fetch('http://localhost:3001/api/analysis/crosssport')
+    fetch(`${API.ANALYSIS}/crosssport`)
       .then(r => r.json())
       .then(d => {
         if (d.error) throw new Error(d.error)

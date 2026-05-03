@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { API } from '../../config/api'
 
 const BADGE_STYLES = {
   'New':        { background: 'rgba(2,113,235,0.15)',  color: '#0271eb' },
@@ -179,7 +180,7 @@ export default function Summary({ sport }) {
   const fetchData = useCallback(() => {
     setLoading(true)
     setError(null)
-    fetch(`http://localhost:3001/api/${sport.db}/summary/${sport.table}`)
+    fetch(`${API.BASE}/api/${sport.db}/summary/${sport.table}`)
       .then(r => r.json())
       .then(d => {
         if (d.error) throw new Error(d.error)

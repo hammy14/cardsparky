@@ -3,6 +3,7 @@ import { useAuth, ROLE_HOME_SECTIONS } from '../context/AuthContext'
 import { sports } from '../config/sports'
 import CardSparkyLogo from '../components/CardSparkyLogo'
 import { useAffiliateCards } from '../hooks/useAffiliateCards'
+import { API } from '../config/api'
 
 const ROTATION_KEY   = 'cs_rotation_settings'
 const TIPS_KEY       = 'cs_tips'
@@ -123,7 +124,7 @@ function StatsSection({ owner }) {
 
   useEffect(() => {
     if (!owner) return
-    fetch(`http://localhost:3001/api/mycards/summary?owner=${encodeURIComponent(owner)}`)
+    fetch(`${API.MYCARDS}/summary?owner=${encodeURIComponent(owner)}`)
       .then(r => r.json())
       .then(d => {
         if (d.error) throw new Error(d.error)

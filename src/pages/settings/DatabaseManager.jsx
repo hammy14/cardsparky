@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { sports } from '../../config/sports'
+import { API } from '../../config/api'
 
 const DB_OVERRIDES_KEY = 'cs_db_overrides'
 
@@ -43,7 +44,7 @@ export default function DatabaseManager() {
     const db = getDb(key)
     setTesting(key)
     try {
-      const res = await fetch(`http://localhost:3001/api/${db}/test`)
+      const res = await fetch(`${API.BASE}/api/${db}/test`)
       const data = await res.json()
       setStatuses(s => ({ ...s, [key]: res.ok ? 'ok' : 'error' }))
       if (!res.ok) console.error(db, data.error)

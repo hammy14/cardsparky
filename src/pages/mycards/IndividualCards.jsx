@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { SkeletonKpis, SkeletonTable, AnimatedKpiCard } from '../../components/Skeleton'
 import EmptyState from '../../components/EmptyState'
+import { API } from '../../config/api'
 import DensityToggle from '../../components/DensityToggle'
 import useDensity from '../../hooks/useDensity'
 import useColResize from '../../hooks/useColResize.jsx'
@@ -22,7 +23,7 @@ function EditableCell({ rowId, column, initialValue, type = 'string', owner, onS
     if (String(val) === String(initialValue ?? '')) return
     setStatus('saving')
     try {
-      await fetch(`http://localhost:3001/api/mycards/individual/${rowId}`, {
+      await fetch(`${API.MYCARDS}/individual/${rowId}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ column, value: val, owner })
@@ -92,7 +93,7 @@ export default function IndividualCards() {
     if (!applied.sport) return
     setLoading(true)
     const params = new URLSearchParams({ owner, page, perpage, sort: sortCol, dir: sortDir, sport: applied.sport, name: applied.name })
-    fetch(`http://localhost:3001/api/mycards/individual?${params}`)
+    fetch(`${API.MYCARDS}/individual?${params}`)
       .then(r => r.json())
       .then(d => {
         if (d.error) throw new Error(d.error)

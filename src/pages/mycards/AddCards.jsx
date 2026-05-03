@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../components/Toast'
+import { API } from '../../config/api'
 
 const SPORTS = ['Baseball','Basketball','Football','Hockey','Soccer','Wrestling','UFC','Racing','Formula 1','Golf','Pokemon','Magic','YuGiOh','Funko']
 const TYPES  = ['Base','Insert','Parallel']
@@ -57,7 +58,7 @@ function RecentCards({ owner, refresh, onEdit }) {
 
   const load = useCallback(() => {
     if (!owner) return
-    fetch(`http://localhost:3001/api/mycards/recent?owner=${encodeURIComponent(owner)}&limit=8`)
+    fetch(`${API.MYCARDS}/recent?owner=${encodeURIComponent(owner)}&limit=8`)
       .then(r => r.json()).then(setCards).catch(() => {})
   }, [owner, refresh])
 
@@ -65,7 +66,7 @@ function RecentCards({ owner, refresh, onEdit }) {
 
   async function handleDelete(id, name) {
     if (!window.confirm(`Delete "${name}"?`)) return
-    await fetch(`http://localhost:3001/api/mycards/card/${id}?owner=${encodeURIComponent(owner)}`, { method: 'DELETE' })
+    await fetch(`${API.MYCARDS}/card/${id}?owner=${encodeURIComponent(owner)}`, { method: 'DELETE' })
     showToast('Card deleted', 'info')
     load()
   }
@@ -118,7 +119,7 @@ export default function AddCards() {
     nameTimer.current = setTimeout(async () => {
       try {
         const params = new URLSearchParams({ owner, q, sport: form.Sport })
-        const res = await fetch(`http://localhost:3001/api/mycards/suggest?${params}`)
+        const res = await fetch(`${API.MYCARDS}/suggest?${params}`)
         setNameSuggestions(await res.json())
       } catch {}
     }, 300)
@@ -130,7 +131,7 @@ export default function AddCards() {
     numberTimer.current = setTimeout(async () => {
       try {
         const params = new URLSearchParams({ owner, sport: form.Sport, card: form.Card })
-        const res = await fetch(`http://localhost:3001/api/mycards/numbersuggest?${params}`)
+        const res = await fetch(`${API.MYCARDS}/numbersuggest?${params}`)
         setNumberSuggestions(await res.json())
       } catch {}
     }, 300)
@@ -157,7 +158,7 @@ export default function AddCards() {
   }
 
   async function submitCard(data) {
-    const res = await fetch('http://localhost:3001/api/mycards/add', {
+    const res = await fetch(`${API.MYCARDS}/add`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

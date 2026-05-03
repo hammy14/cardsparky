@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
+import { API } from '../../config/api'
 
 const STATUS_TYPES = ['New', 'Completed']
 
@@ -162,7 +163,7 @@ export default function MfgBrandUpdate({ sport }) {
   const fetchData = useCallback(() => {
     setLoading(true)
     const params = new URLSearchParams({ page, perpage, ...applied })
-    fetch(`http://localhost:3001/api/${sport.db}/mfgbrand/${sport.table}?${params}`)
+    fetch(`${API.BASE}/api/${sport.db}/mfgbrand/${sport.table}?${params}`)
       .then(r => r.json())
       .then(d => {
         if (d.error) throw new Error(d.error)
@@ -182,7 +183,7 @@ export default function MfgBrandUpdate({ sport }) {
   useEffect(() => { fetchData() }, [fetchData])
 
   async function saveField(id, column, value) {
-    const res = await fetch(`http://localhost:3001/api/${sport.db}/mfgbrand/${sport.table}/${id}`, {
+    const res = await fetch(`${API.BASE}/api/${sport.db}/mfgbrand/${sport.table}/${id}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ column, value })

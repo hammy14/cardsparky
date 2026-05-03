@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
+import { API } from '../config/api';
 
-const API = 'http://localhost:3001/api/affiliate/cards';
+const AFFILIATE_API = `${API.BASE}/api/affiliate/cards`;
 
 export function useAffiliateCards(page) {
   const [allCards, setAllCards] = useState([]);
@@ -8,7 +9,7 @@ export function useAffiliateCards(page) {
 
   const fetch_ = useCallback(async () => {
     try {
-      const res = await fetch(API);
+      const res = await fetch(AFFILIATE_API);
       const data = await res.json();
       setAllCards(Array.isArray(data) ? data : []);
     } catch { setAllCards([]); }
@@ -19,15 +20,15 @@ export function useAffiliateCards(page) {
 
   async function upsert(card) {
     if (card.id) {
-      await fetch(`${API}/${card.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(card) });
+      await fetch(`${AFFILIATE_API}/${card.id}`, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(card) });
     } else {
-      await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(card) });
+      await fetch(AFFILIATE_API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(card) });
     }
     await fetch_();
   }
 
   async function remove(id) {
-    await fetch(`${API}/${id}`, { method: 'DELETE' });
+    await fetch(`${AFFILIATE_API}/${id}`, { method: 'DELETE' });
     await fetch_();
   }
 

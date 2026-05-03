@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '../../context/AuthContext'
+import { API } from '../../config/api'
 
 function fcur(n) { return '$' + Number(n ?? 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }) }
 function fnum(n) { return Number(n ?? 0).toLocaleString() }
@@ -35,7 +36,7 @@ export default function AllCardSummary() {
   const fetchData = useCallback(() => {
     if (!owner) return
     setLoading(true)
-    fetch(`http://localhost:3001/api/mycards/summary?owner=${encodeURIComponent(owner)}`)
+    fetch(`${API.MYCARDS}/summary?owner=${encodeURIComponent(owner)}`)
       .then(r => r.json())
       .then(d => {
         if (d.error) throw new Error(d.error)
