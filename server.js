@@ -962,8 +962,18 @@ app.get('/api/:db/query', async (req, res) => {
   }
 })
 
-app.listen(3001, () => {
-  console.log('Server running on port 3001')
+// ── Health Check ──────────────────────────────────────────────────────────────
+app.get('/api/health', async (req, res) => {
+  try {
+    res.json({ status: 'ok', databases: Object.keys(pools) })
+  } catch (err) {
+    res.status(500).json({ error: err.message })
+  }
+})
+
+const PORT = process.env.PORT || 3002
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`)
   console.log('Loaded databases:', Object.keys(pools))
   console.log('Host:', process.env.DB_HOST)
   console.log('User:', process.env.DB_USER)
